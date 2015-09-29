@@ -2,9 +2,9 @@
 The intent of this system is to be a tool that can be used to gather information on the status of a specific or several specified repositories.
 
 # How to Get the System
-1. Clone our repository by using this command: git clone 
-<blockquote> https://github.com/craftfrancis/gitStati/ </blockquote>
-You should now have full access to the entirety of this project's code
+1. Clone our repository into your file system by using this command: 
+<blockquote> git clone https://github.com/craftfrancis/gitStati/ </blockquote>
+You should now have full access to the entirety of this project's code.
 
 
 The MIT License (MIT)
