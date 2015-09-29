@@ -18,10 +18,10 @@ own instructions once you’re running it!
 If you have questions, comments, concerns, anything you want to bring up to our team, don't hesitate to send us a message [here](https://github.com/craftfrancis/gitStati/issues).
 
 # Contributors
-Francis Craft [craftfrancis](https://github.com/craftfrancis)
-Troy Dinga [dingat](https://github.com/dingat)
-Alex Means [meansa](https://github.com/meansa)
-Elizabeth Person [e-person](https://github.com/e-person)
+[Francis Craft](https://github.com/craftfrancis)
+[Troy Dinga](https://github.com/dingat)
+[Alex Means](https://github.com/meansa)
+[Elizabeth Person](https://github.com/e-person)
 Ayodele Hamilton 
 SJ Guillaume
 
