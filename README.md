@@ -1,10 +1,18 @@
 # cs280lab5
 The intent of this system is to be a tool that can be used to gather information on the status of a specific or several specified repositories.
 
-# How to Get the System
-1. Clone our repository into your file system by using this command: 
-<blockquote> git clone https://github.com/craftfrancis/gitStati/ </blockquote>
-You should now have full access to the entirety of this project's code.
+# Tutorial
+
+1. Download the .zip file of the repository and extract the files to whatever directory you see fit. (At the
+very least, you need gitStati.java and StreamGobbler.java.)
+2. Open your terminal window and navigate to the directory containing the .java files. (If you are unclear
+on how to do this, using the cd command, please see this fine documentation for more information.)
+3. First, you need to compile the main program file, gitStati.java. To do this, type the following
+command into the terminal: javac gitStati.java. (So long as StreamGobbler.java is in the same
+directory, you should receive no errors doing this.)
+4. Once this is done, you can run the program by typing the command java gitStati into the terminal.
+5. Thankfully, the program is rather self-explanatory with its prompts, so you should be fine following its
+own instructions once you’re running it!
 
 # Feedback
 If you have questions, comments, concerns, anything you want to bring up to our team, don't hesitate to send us a message [here](https://github.com/craftfrancis/gitStati/issues).
