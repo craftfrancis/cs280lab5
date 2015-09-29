@@ -47,7 +47,8 @@ public class gitStati {
 			printTree(rootNode, ANSI_GREEN, ANSI_RESET);
 
 			//Providing the user with choices as to how they may continue using or cease using the program.
-			System.out.println("\nWhat would you like to do, now? (Type and return number of chosen option.)");
+			System.out.print("\n");
+			System.out.println("What would you like to do, now? (Type and return number of chosen option.)");
 			System.out.println("\n1) List all git repositories in the tree created?");
 			System.out.println("2) Display the information provided by the 'git status' command for some or all repositories?");
 			System.out.println("3) Exit program?");
