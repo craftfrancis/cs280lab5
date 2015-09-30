@@ -20,6 +20,11 @@ public class gitStati {
 		boolean isDir = false; //Directory?
 		boolean isRepo = false; //Git repository?
 		ArrayList<Node> children = new ArrayList<Node>(); //Child directories.
+
+		private String getPath()
+		{
+			return path;
+		}
 	}//Node
 
 	public static void main(String[] args) {
@@ -30,11 +35,13 @@ public class gitStati {
 		Scanner in = new Scanner(System.in); 		//Scanner to read in user's root directory.
 
 		//Prompt the user for, and store, their chosen root directory.
-		System.out.print("Please enter the root directory you'd like to begin analyzing from: ");
+		System.out.print("Hello! Welcome to gitStati! \nTo git started, please enter the root directory you'd like to begin analyzing from (please enter the full path): ");
 		File rootFile = new File(in.nextLine()); 	
 
 		//Making sure that they've actually specified a directory.
 		if (rootFile.isDirectory()) {
+			System.out.println("\nGoing out to git all your repositories. One moment please");
+
 			//The first Node in the tree (the root) is this directory.
 			Node rootNode = new Node();
 			rootNode.path = rootFile.getAbsolutePath();
@@ -44,7 +51,7 @@ public class gitStati {
 		
 			//Will later add a 'verbose' option to determine whether or not this 
 			//is printed.
-			printTree(rootNode, ANSI_GREEN, ANSI_RESET);
+			//printTree(rootNode, ANSI_GREEN, ANSI_RESET);
 
 			//Providing the user with choices as to how they may continue using or cease using the program.
 			System.out.print("\n");
@@ -81,6 +88,8 @@ public class gitStati {
 								System.out.print("\nPlease enter the repository you wish to check: ");
 								File gitToCheck = new File(in.nextLine());
 
+								System.out.println(ANSI_GREEN + gitToCheck + ANSI_RESET);
+
 								try {
 									//A process to hold the execution of the 'git status' command.
 									Process p = Runtime.getRuntime().exec("git status", null, gitToCheck);
@@ -111,12 +120,44 @@ public class gitStati {
 
 								break;
 							case "2" :
-								//Unfortunately, due to time constraints that had arisen due to the search
-								//for an effective way of achieving this functionality, this option is not yet 
-								//available. However, to implement this will be an almost trivial matter, given 
-								//the methods and previous coding already available for use.
+								
+								for (Node repo : findRepos(rootNode)) {
+									//System.out.println(ANSI_GREEN + repo.path + ANSI_RESET);
+									
+									System.out.println(ANSI_GREEN + repo.path + ANSI_RESET);
+
+									File gitterToCheck = new File(repo.getPath());
+									try {
+									//A process to hold the execution of the 'git status' command.
+										Process p = Runtime.getRuntime().exec("git status", null, gitterToCheck);
+
+										//From the following topic thread on Stack Overflow:
+										//http://stackoverflow.com/questions/236737/making-a-system-call-that-returns-the-stdout-output-as-a-string/236873#236873
+										//All due credit to this individual for this constructor and the methods and 
+										//variable usage involving it, all of which can be seen in StreamGobbler.java, 
+										//in this same directory.
+		
+										StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
+										StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), ">");
+
+										//Start the streams.
+										errorGobbler.start();
+										outputGobbler.start();
+
+										//Give the streams a little time.
+										int exitVal = p.waitFor();
+
+										//Output what ought to be output.
+										String output = outputGobbler.getOutput();
+										System.out.println("\n" + output);
+
+									} catch(Exception e) {
+										System.out.println("\nSomething went wrong running the git command!");
+									}
+									
+								}
 								break;
-						}
+							}
 
 						break;
 					default :
@@ -136,7 +177,7 @@ public class gitStati {
 			}
 
 			//Goodbye!
-			System.out.println("\nThank you for using git-TreeHouse!");
+			System.out.println("\nThank you for using gitStati!");
 		} else {
 			//If the user has not entered a directory, we cannot really continue.
 			System.out.println("Sorry, but you must enter a valid directory!");
