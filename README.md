@@ -1,5 +1,5 @@
-# cs280lab5
-The intent of this system is to be a tool that can be used to gather information on the status of a specific or several specified repositories.
+# git Stati
+A tool to gather information on the status of your git repositories.
 
 # How to Get The System
 There are two primary ways of obtaining our system, as detailed below. Please use the method you find more appropriate for your needs.
