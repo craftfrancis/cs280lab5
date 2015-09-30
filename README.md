@@ -4,29 +4,33 @@ The intent of this system is to be a tool that can be used to gather information
 # How to Get The System
 There are two primary ways of obtaining our system, as detailed below. Please use the method you find more appropriate for your needs.
 
-Method 1: .zip file
+Method 1: `.zip` file
 
 Download the .zip file of the repository (the download button can be found on the right side of our project page) and extract the files to whatever directory you see fit. At the
 very least, you will need the files gitStati.java and StreamGobbler.java. From here, you should have full access to all of our code.
 
 Method 2: Cloning
 
-1. Create an empty directory to hold our files, or settle to place them in an existing directory if you wish.
-2. Use the command `git init` in order to initialize this directory as a git directory. This will allow you to clone our directory in the next step.
-3. Clone our repository by using this command: 
+1. Either create a new directory or simply choose an existing directory to hold the repository.
+
+2. Clone our repository by using this command: 
+
  `git clone https://github.com/craftfrancis/gitStati/`
-4. You will now find a directory containing all of our code in your specified directory
+ 
+3. You will now find a directory containing all of our code in your specified directory
+
 
 # Tutorial
 
-1. Open your terminal window and navigate to the directory containing the .java files. (If you are unclear
-on how to do this, using the cd command, please see this fine [documentation](http://www.westwind.com/reference/os-x/commandline/navigation.html) for more information.)
-2. First, you need to compile the main program file, gitStati.java. To do this, type the following
-command into the terminal: `javac gitStati.java`. (So long as StreamGobbler.java is in the same
+1. Open your terminal window and navigate to the directory containing the .java files. (If you are unclear on how to do this, using the `cd` command, please browse through some of this fine [documentation](http://www.westwind.com/reference/os-x/commandline/navigation.html) for more information.)
+
+2. First, you need to compile the main program file, `gitStati.java`. To do this, type the following
+command into the terminal: `javac gitStati.java`. (So long as `StreamGobbler.java` is in the same
 directory, you should receive no errors doing this.)
+
 3. Once this is done, you can run the program by typing the command `java gitStati` into the terminal.
-4. Thankfully, the program is rather self-explanatory with its prompts, so you should be fine following its
-own instructions once you’re running it!
+
+4. The program itself is rather self-explanatory with its prompts, so you should be fine following its own instructions once you’re running it!
 
 # Feedback
 If you have questions, comments, concerns, anything you want to bring up to our team, don't hesitate to send us a message [here](https://github.com/craftfrancis/gitStati/issues)!
