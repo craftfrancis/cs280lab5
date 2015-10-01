@@ -1,15 +1,16 @@
-//Troy Dinga, Francis Craft, and Alexander Means
+//Troy Dinga, Francis Craft, Alexander Means, Elizabeth Person, SJ Guillaume, and Ayodele Hamilton
 //September 25th, 2015
 //
-//The TreeHouse program, or git-TreeHouse, as we'll be referring to it, performs several 
-//useful functions for the user. The first is that it can create a tree beginning at a 
-//user-specified root directory encompassing all subdirectories of this directory, all 
-//subdirectories of those subdirectories, etc. 
+//The gitStati program performs several useful functions for the user. 
+//The first is that it can create a tree beginning at a user-specified root directory 
+//encompassing all subdirectories of this directory, all 
+//subdirectories of those subdirectories, etc.
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class gitStati {
 
@@ -31,16 +32,23 @@ public class gitStati {
 		//Escape sequences to color the terminal output.
 		final String ANSI_GREEN = "\u001B[32m";
 		final String ANSI_RESET = "\u001B[0m";
+		final String ANSI_RED = "\u001B[31m";
 
+		//Strings to match in the output.
+		final String NOT_COMMITTED = ">>Changes not staged for commit:\n";
+		final String TO_COMMIT = ">>Changes to be committed:\n";
+		final String UNTRACKED = ">>Untracked files:\n";
+
+		int j = 0; //Increment variable.
 		Scanner in = new Scanner(System.in); 		//Scanner to read in user's root directory.
 
 		//Prompt the user for, and store, their chosen root directory.
-		System.out.print("\nHello! Welcome to gitStati! \n\nTo git started, please enter the root directory you'd like to begin analyzing from (please enter the full path): ");
+		System.out.print("\n\nHello! Welcome to gitStati! \n\nTo git started, please enter the root directory you'd like to begin the analysis from (please enter the full path): ");
 		File rootFile = new File(in.nextLine()); 	
 
 		//Making sure that they've actually specified a directory.
 		if (rootFile.isDirectory()) {
-			System.out.println("\nGoing out to git all your repositories. One moment please");
+			System.out.println("\nGoing out to git all your repositories. One moment please...\n");
 
 			//The first Node in the tree (the root) is this directory.
 			Node rootNode = new Node();
@@ -48,10 +56,6 @@ public class gitStati {
 
 			//Build the tree from this root.
 			buildTree(rootFile,rootNode);
-		
-			//Will later add a 'verbose' option to determine whether or not this 
-			//is printed.
-			//printTree(rootNode, ANSI_GREEN, ANSI_RESET);
 
 			//Providing the user with choices as to how they may continue using or cease using the program.
 			System.out.print("\n");
@@ -64,7 +68,7 @@ public class gitStati {
 			String choice = in.nextLine();
 			System.out.print("\n");
 
-			//initialize choice2 outside loop
+			//initialize second decision variable outside loop.
 			String choice2 = "";
 
 			//So long as the user doesn't wish to end the program yet.
@@ -75,6 +79,7 @@ public class gitStati {
 						for (Node repo : findRepos(rootNode)) {
 							System.out.println(ANSI_GREEN + repo.path + ANSI_RESET);
 						}
+
 						break;
 					case "2":
 						//Offer options for how many repositories this search should handle.
@@ -91,7 +96,8 @@ public class gitStati {
 								System.out.print("\nPlease enter the repository you wish to check: ");
 								File gitToCheck = new File(in.nextLine());
 
-								System.out.println(ANSI_GREEN + gitToCheck + ANSI_RESET);
+								//Print out the chosen repository.
+								System.out.println("\n" + ANSI_GREEN + gitToCheck + ANSI_RESET + "\n");
 
 								try {
 									//A process to hold the execution of the 'git status' command.
@@ -110,25 +116,35 @@ public class gitStati {
 									errorGobbler.start();
 									outputGobbler.start();
 
-									//Give the streams a little time.
-									int exitVal = p.waitFor();
-
-									//Output what ought to be output.
-									String output = outputGobbler.getOutput();
-									System.out.println("\n" + output + "hello.");
+									//We give the stream time to print its output.
+									try {
+										TimeUnit.SECONDS.sleep(1);
+									} catch(InterruptedException e) {
+										System.out.println("Looks like the stream didn't wait long enough.");
+									}
 									
 
 								} catch(Exception e) {
 									System.out.println("\nSomething went wrong running the git command!");
 								}
 
+								//Prompt the user to have the option of trying again rather than pushing them back out
+								//If they say yes, then avoid reassigning choice variable
+								System.out.println("\nWould you like to try again?");
+								System.out.println("Yes or no? (y/n)");
+								choice2 = in.nextLine(); 
+					
+								while(!choice2.equalsIgnoreCase("Y")&&!choice2.equalsIgnoreCase("N"))
+								{
+									System.out.println("Please specify yes or no (y/n)");
+									choice2=in.nextLine();
+								}
+
 								break;
 							case "2" :
-								
 								for (Node repo : findRepos(rootNode)) {
-									//System.out.println(ANSI_GREEN + repo.path + ANSI_RESET);
-									
-									System.out.println(ANSI_GREEN + repo.path + ANSI_RESET);
+									//Print out the chosen directory.
+									System.out.println("\n" + ANSI_GREEN + repo.path + ANSI_RESET + "\n");
 
 									File gitterToCheck = new File(repo.getPath());
 									try {
@@ -148,25 +164,28 @@ public class gitStati {
 										errorGobbler.start();
 										outputGobbler.start();
 
-										//Give the streams a little time.
-										int exitVal = p.waitFor();
-
 										//Output what ought to be output.
 										String output = outputGobbler.getOutput();
 										System.out.println("\n" + output);
+
+										//We give the stream time to print its output.
+										try {
+											TimeUnit.SECONDS.sleep(1);
+										} catch(InterruptedException e) {
+											System.out.println("Looks like the stream was interrupted.");
+										}
 
 									} catch(Exception e) {
 										System.out.println("\nSomething went wrong running the git command!");
 									}
 									
 								}
+
 								//Prompt the user to have the option of trying again rather than pushing them back out
 								//If they say yes, then avoid reassigning choice variable
-								choice2="";
-
-								System.out.println("Would you like to try again?");
+								System.out.println("\nWould you like to try again?");
 								System.out.println("Yes or no? (y/n)");
-								choice2 =in.nextLine(); 
+								choice2 = in.nextLine(); 
 					
 								while(!choice2.equalsIgnoreCase("Y")&&!choice2.equalsIgnoreCase("N"))
 								{
@@ -174,11 +193,10 @@ public class gitStati {
 									choice2=in.nextLine();
 								}
 								
+								System.out.print("\n\n");
 								break;
 							}
-					
-				
-						
+
 						break;
 					default :
 						//The user has entered an option that does not exist.
@@ -188,15 +206,18 @@ public class gitStati {
 				
 				//The user can continue to use this system until they are ready to terminate the execution.
 				//check if the user wishes to reassign to a new section before they are prompted again
-				if(choice2.equals("N") || choice2.equals("n"))
+				if(choice2.equalsIgnoreCase("n") || choice.equals("1"))
 				{
-					System.out.print("\nWhat would you like to do now?");
+					System.out.println("\nWhat would you like to do now?");
 					System.out.println("\n1) List all git repositories in the tree created?");
 					System.out.println("2) Display the information provided by the 'git status' command for some or all repositories?");
 					System.out.println("3) Exit program?");
 					System.out.print("\nPlease enter your choice, here (do not include paren in choice): ");
 
 					choice = in.nextLine();
+					choice2 = "";
+
+					System.out.print("\n");
 				}
 			}
 
