@@ -35,7 +35,7 @@ public class gitStati {
 		Scanner in = new Scanner(System.in); 		//Scanner to read in user's root directory.
 
 		//Prompt the user for, and store, their chosen root directory.
-		System.out.print("Hello! Welcome to gitStati! \nTo git started, please enter the root directory you'd like to begin analyzing from (please enter the full path): ");
+		System.out.print("\nHello! Welcome to gitStati! \n\nTo git started, please enter the root directory you'd like to begin analyzing from (please enter the full path): ");
 		File rootFile = new File(in.nextLine()); 	
 
 		//Making sure that they've actually specified a directory.
@@ -115,7 +115,8 @@ public class gitStati {
 
 									//Output what ought to be output.
 									String output = outputGobbler.getOutput();
-									System.out.println("\n" + output);
+									System.out.println("\n" + output + "hello.");
+									
 
 								} catch(Exception e) {
 									System.out.println("\nSomething went wrong running the git command!");
@@ -167,7 +168,7 @@ public class gitStati {
 								System.out.println("Yes or no? (y/n)");
 								choice2 =in.nextLine(); 
 					
-								while(!choice2.equals("Y")&&!choice2.equals("N")&&!choice2.equals("y")&&!choice.equals("n"))
+								while(!choice2.equalsIgnoreCase("Y")&&!choice2.equalsIgnoreCase("N"))
 								{
 									System.out.println("Please specify yes or no (y/n)");
 									choice2=in.nextLine();
