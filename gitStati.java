@@ -64,6 +64,9 @@ public class gitStati {
 			String choice = in.nextLine();
 			System.out.print("\n");
 
+			//initialize choice2 outside loop
+			String choice2 = "";
+
 			//So long as the user doesn't wish to end the program yet.
 			while (!choice.equals("3")) {
 				switch (choice) {
@@ -156,9 +159,25 @@ public class gitStati {
 									}
 									
 								}
+								//Prompt the user to have the option of trying again rather than pushing them back out
+								//If they say yes, then avoid reassigning choice variable
+								choice2="";
+
+								System.out.println("Would you like to try again?");
+								System.out.println("Yes or no? (y/n)");
+								choice2 =in.nextLine(); 
+					
+								while(!choice2.equals("Y")&&!choice2.equals("N")&&!choice2.equals("y")&&!choice.equals("n"))
+								{
+									System.out.println("Please specify yes or no (y/n)");
+									choice2=in.nextLine();
+								}
+								
 								break;
 							}
-
+					
+				
+						
 						break;
 					default :
 						//The user has entered an option that does not exist.
@@ -167,13 +186,17 @@ public class gitStati {
 				}
 				
 				//The user can continue to use this system until they are ready to terminate the execution.
-				System.out.print("\nWhat would you like to do now?");
-				System.out.println("\n1) List all git repositories in the tree created?");
-				System.out.println("2) Display the information provided by the 'git status' command for some or all repositories?");
-				System.out.println("3) Exit program?");
-				System.out.print("\nPlease enter your choice, here (do not include paren in choice): ");
+				//check if the user wishes to reassign to a new section before they are prompted again
+				if(choice2.equals("N") || choice2.equals("n"))
+				{
+					System.out.print("\nWhat would you like to do now?");
+					System.out.println("\n1) List all git repositories in the tree created?");
+					System.out.println("2) Display the information provided by the 'git status' command for some or all repositories?");
+					System.out.println("3) Exit program?");
+					System.out.print("\nPlease enter your choice, here (do not include paren in choice): ");
 
-				choice = in.nextLine();
+					choice = in.nextLine();
+				}
 			}
 
 			//Goodbye!
@@ -300,4 +323,3 @@ public class gitStati {
 		}
 	}
 }
-
