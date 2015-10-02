@@ -33,11 +33,7 @@ public class gitStati {
 		final String ANSI_GREEN = "\u001B[32m";
 		final String ANSI_RESET = "\u001B[0m";
 		final String ANSI_RED = "\u001B[31m";
-
-		//Strings to match in the output.
-		final String NOT_COMMITTED = ">>Changes not staged for commit:\n";
-		final String TO_COMMIT = ">>Changes to be committed:\n";
-		final String UNTRACKED = ">>Untracked files:\n";
+		final String ANSI_BLUE = "\u001B[34m";
 
 		int j = 0; //Increment variable.
 		Scanner in = new Scanner(System.in); 		//Scanner to read in user's root directory.
@@ -69,35 +65,53 @@ public class gitStati {
 			System.out.print("\n");
 
 			//initialize second decision variable outside loop.
-			String choice2 = "";
+			String statusOption = "";
+			String previousYesNo = "";
 
 			//So long as the user doesn't wish to end the program yet.
 			while (!choice.equals("3")) {
+
+				//Clear any residual selections.
+				statusOption = "";
+				previousYesNo = "";
+
 				switch (choice) {
 					case "1" :
 						//List the repos in the main tree.
 						for (Node repo : findRepos(rootNode)) {
-							System.out.println(ANSI_GREEN + repo.path + ANSI_RESET);
+							System.out.println(ANSI_BLUE + repo.path + ANSI_RESET);
 						}
+						
+						//Next course of action?
+						System.out.println("\nWhat would you like to do now?");
+						System.out.println("\n1) List all git repositories in the tree created?");
+						System.out.println("2) Display the information provided by the 'git status' command for some or all repositories?");
+						System.out.println("3) Exit program?");
+						System.out.print("\nPlease enter your choice, here (do not include paren in choice): ");
+
+						choice = in.nextLine();
+
+						System.out.print("\n");
 
 						break;
 					case "2":
 						//Offer options for how many repositories this search should handle.
 						System.out.println("\n1) Would you like to select a specific repository?");
 						System.out.println("2) Have git status run on all repositories in the tree?");
+						System.out.println("3) Return to the main menu?");
 						System.out.print("\nPlease select one of the above options: ");
 
 						//User response.
-						choice = in.nextLine();
+						statusOption = in.nextLine();
 
-						switch (choice) {
+						switch (statusOption) {
 							case "1" :
 								//User must choose a repository to check the status of.
 								System.out.print("\nPlease enter the repository you wish to check: ");
 								File gitToCheck = new File(in.nextLine());
 
 								//Print out the chosen repository.
-								System.out.println("\n" + ANSI_GREEN + gitToCheck + ANSI_RESET + "\n");
+								System.out.println("\n" + ANSI_BLUE + gitToCheck + ANSI_RESET + "\n");
 
 								try {
 									//A process to hold the execution of the 'git status' command.
@@ -128,23 +142,30 @@ public class gitStati {
 									System.out.println("\nSomething went wrong running the git command!");
 								}
 
-								//Prompt the user to have the option of trying again rather than pushing them back out
-								//If they say yes, then avoid reassigning choice variable
-								System.out.println("\nWould you like to try again?");
-								System.out.println("Yes or no? (y/n)");
-								choice2 = in.nextLine(); 
+								//Prompt the user to have the option of continuing in this option instead of 
+								//pushing them back to the main menu.
+								System.out.println("\nWould you like to check any other statuses?");
+								System.out.println("Yes or no (y/n)?\n");
+								System.out.print("Please enter your choice: ");
+								previousYesNo = in.nextLine(); 
 					
-								while(!choice2.equalsIgnoreCase("Y")&&!choice2.equalsIgnoreCase("N"))
+								while(!previousYesNo.equalsIgnoreCase("Y") && !previousYesNo.equalsIgnoreCase("N"))
 								{
 									System.out.println("Please specify yes or no (y/n)");
-									choice2=in.nextLine();
+									previousYesNo = in.nextLine();
+								}
+
+
+								//Return them to the status listing menu if they answer y(es).
+								if(previousYesNo.equalsIgnoreCase("Y")) {
+									choice = "2";
 								}
 
 								break;
 							case "2" :
 								for (Node repo : findRepos(rootNode)) {
 									//Print out the chosen directory.
-									System.out.println("\n" + ANSI_GREEN + repo.path + ANSI_RESET + "\n");
+									System.out.println("\n" + ANSI_BLUE + repo.path + ANSI_RESET);
 
 									File gitterToCheck = new File(repo.getPath());
 									try {
@@ -164,10 +185,6 @@ public class gitStati {
 										errorGobbler.start();
 										outputGobbler.start();
 
-										//Output what ought to be output.
-										String output = outputGobbler.getOutput();
-										System.out.println("\n" + output);
-
 										//We give the stream time to print its output.
 										try {
 											TimeUnit.SECONDS.sleep(1);
@@ -181,32 +198,68 @@ public class gitStati {
 									
 								}
 
-								//Prompt the user to have the option of trying again rather than pushing them back out
-								//If they say yes, then avoid reassigning choice variable
-								System.out.println("\nWould you like to try again?");
-								System.out.println("Yes or no? (y/n)");
-								choice2 = in.nextLine(); 
+								//Prompt the user to have the option of continuing in this option instead of 
+								//pushing them back to the main menu.								
+								System.out.println("\nWould you like to check any other statuses?");
+								System.out.println("Yes or no (y/n)?\n");
+								System.out.print("Please enter your choice: ");
+								previousYesNo = in.nextLine(); 
 					
-								while(!choice2.equalsIgnoreCase("Y")&&!choice2.equalsIgnoreCase("N"))
+								while(!previousYesNo.equalsIgnoreCase("Y") && !previousYesNo.equalsIgnoreCase("N"))
 								{
 									System.out.println("Please specify yes or no (y/n)");
-									choice2=in.nextLine();
+									previousYesNo=in.nextLine();
+								}
+
+								//Return them to the status listing menu if they answer y(es).
+								if(previousYesNo.equalsIgnoreCase("Y")) {
+									choice = "2";
 								}
 								
-								System.out.print("\n\n");
+								System.out.print("\n");
 								break;
+
+							case "3" : 
+								//Essentially: Returning to the main menu (original options).
+								break;
+
+								default :
+									//The user has entered an option that does not exist.
+									System.out.println("\nI'm sorry, that's not one of the listed options!");
+
+									//Offer options for how many repositories this search should handle.
+									System.out.println("\n1) Would you like to select a specific repository?");
+									System.out.println("2) Have git status run on all repositories in the tree?");
+									System.out.println("3) Return to the main menu?");
+									System.out.print("\nPlease select one of the above options: ");
+
+									//User response.
+									statusOption = in.nextLine();
+									break;
 							}
 
 						break;
+
 					default :
-						//The user has entered an option that does not exist.
+						//The user has entered an option that does not exist. Restart.
 						System.out.println("\nI'm sorry, that's not one of the listed options!");
+
+						System.out.println("\nWhat would you like to do now?");
+						System.out.println("\n1) List all git repositories in the tree created?");
+						System.out.println("2) Display the information provided by the 'git status' command for some or all repositories?");
+						System.out.println("3) Exit program?");
+						System.out.print("\nPlease enter your choice, here (do not include paren in choice): ");
+
+						choice = in.nextLine();
+
+						System.out.print("\n");
+
 						break;
 				}
 				
 				//The user can continue to use this system until they are ready to terminate the execution.
 				//check if the user wishes to reassign to a new section before they are prompted again
-				if(choice2.equalsIgnoreCase("n") || choice.equals("1"))
+				if(previousYesNo.equalsIgnoreCase("n") || statusOption.equals("3"))
 				{
 					System.out.println("\nWhat would you like to do now?");
 					System.out.println("\n1) List all git repositories in the tree created?");
@@ -215,7 +268,6 @@ public class gitStati {
 					System.out.print("\nPlease enter your choice, here (do not include paren in choice): ");
 
 					choice = in.nextLine();
-					choice2 = "";
 
 					System.out.print("\n");
 				}
@@ -317,19 +369,19 @@ public class gitStati {
 	 * return type, printTree prints out all nodes in the tree built 
 	 * off of a specified root. Git repositories are colored green.
 	 */
-	static void printTree(Node root, String green, String reset) {
+	static void printTree(Node root, String blue, String reset) {
 		//The node has children.
 		if (root.children.size() > 0) {
 			//Recursive call for each child present.
 			for (Node child : root.children) {
-				printTree(child, green, reset);
+				printTree(child, blue, reset);
 			}
 
 			//The directory is exhausted of children;
 			//Print the current node, but color it if 
 			//it is a git repository.
 			if(root.isRepo) {
-				System.out.println(green + root.path + reset);
+				System.out.println(blue + root.path + reset);
 			} else {
 				System.out.println(root.path);
 			}
@@ -338,7 +390,7 @@ public class gitStati {
 			//Print the current node, but color it if 
 			//it is a git repository.
 			if(root.isRepo) {
-				System.out.println(green + root.path + reset);
+				System.out.println(blue + root.path + reset);
 			} else {
 				System.out.println(root.path);
 			}
