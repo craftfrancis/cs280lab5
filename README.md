@@ -30,7 +30,10 @@ directory, you should receive no errors doing this.)
 
 3. Once this is done, you can run the program by typing the command `java gitStati` into the terminal.
 
-4. The program itself is rather self-explanatory with its prompts, so you should be fine following its own instructions once you’re running it!
+4. You should receive a welcome message in the terminal followed by a prompt for the root directory gitStati will search from. Please provide the full path here.
+
+5. After providing the path, three options are available to you. Typing 1 will provide you with a list of all of the git repositories in the root file. 2 will allow you to view a git status of either one or all of the repositories. When you are prompted for a specific repository, again, remember to provide a complete path. 3 will let you exit the program.
+
 
 # Feedback
 If you have questions, comments, concerns, anything you want to bring up to our team, don't hesitate to send us a message [here](https://github.com/craftfrancis/gitStati/issues)!
@@ -40,7 +43,7 @@ If you have questions, comments, concerns, anything you want to bring up to our 
 + [Troy Dinga](https://github.com/dingat)
 + [Alex Means](https://github.com/meansa)
 + [Elizabeth Person](https://github.com/e-person)
-+ Ayodele Hamilton 
++ [Ayodele Hamilton]( https://github.com/AyodeleH)
 + SJ Guillaume
 
 
@@ -48,7 +51,7 @@ If you have questions, comments, concerns, anything you want to bring up to our 
 
 The MIT License (MIT)
 
-Copyright (c) [2015] [Francis Craft, Alexander Means, Troy Dinga, Sarah Guillaume, Ayodele Hamilton]
+Copyright (c) [2015] [Francis Craft, Alexander Means, Troy Dinga, Sarah Guillaume, Ayodele Hamilton, Elizabeth Person]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
