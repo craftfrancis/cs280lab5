@@ -1,4 +1,4 @@
-# git Stati
+# gitStati
 A tool to gather information on the status of your git repositories.
 
 # How to Get The System
