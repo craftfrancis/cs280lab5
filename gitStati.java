@@ -75,8 +75,8 @@ public class gitStati {
 				statusOption = "";
 				previousYesNo = "";
 
-				switch (choice) {
-					case "1" :
+				switch (Integer.valueOf(choice)) {
+					case 1 :
 						//List the repos in the main tree.
 						for (Node repo : findRepos(rootNode)) {
 							System.out.println(ANSI_BLUE + repo.path + ANSI_RESET);
@@ -94,7 +94,7 @@ public class gitStati {
 						System.out.print("\n");
 
 						break;
-					case "2":
+					case 2:
 						//Offer options for how many repositories this search should handle.
 						System.out.println("\n1) Would you like to select a specific repository?");
 						System.out.println("2) Have git status run on all repositories in the tree?");
@@ -104,8 +104,8 @@ public class gitStati {
 						//User response.
 						statusOption = in.nextLine();
 
-						switch (statusOption) {
-							case "1" :
+						switch (Integer.valueOf(statusOption)) {
+							case 1 :
 								//User must choose a repository to check the status of.
 								System.out.print("\nPlease enter the repository you wish to check: ");
 								File gitToCheck = new File(in.nextLine());
@@ -162,7 +162,7 @@ public class gitStati {
 								}
 
 								break;
-							case "2" :
+							case 2 :
 								for (Node repo : findRepos(rootNode)) {
 									//Print out the chosen directory.
 									System.out.println("\n" + ANSI_BLUE + repo.path + ANSI_RESET);
@@ -219,7 +219,7 @@ public class gitStati {
 								System.out.print("\n");
 								break;
 
-							case "3" : 
+							case 3 : 
 								//Essentially: Returning to the main menu (original options).
 								break;
 
